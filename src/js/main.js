@@ -5,11 +5,13 @@ import 'mint-ui/lib/style.css';
 import 'mui/dist/css/mui.css';
 import 'mui/examples/hello-mui/css/icons-extra.css';
 import Common from '../component/common';
+import axios from 'axios';
 
 // 启用插件
 Vue.use(MintUi);
 // Vue.use(MUi);
 Vue.use(Common);
+Vue.prototype.axios = axios;
 
 // 导入根组件
 import AppComponent from '../component/App.vue';
