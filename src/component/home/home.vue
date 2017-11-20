@@ -1,7 +1,7 @@
 <template>
     <section>
         <!-- 轮播图 -->
-        <mt-swipe :auto="4000">
+        <mt-swipe :auto="4000">                 
             <mt-swipe-item v-for="item in lunbos" v-bind:key="item.url">
                 <router-link v-bind:to="item.url">
                     <img v-bind:src="item.img" alt="">
@@ -60,13 +60,13 @@ export default {
   methods: {
     getLunbos() {
       this.axios
-        .get("http://vue.studyit.io/api/getlunbo")
-        .then(reps => (this.lunbos = reps.data.message));
+        .get(this.api.getLB)
+        .then(reps => this.lunbos = reps.data.message);
     }
   },
   created() {
     this.getLunbos();
-    console.log(this);
+    // console.log(this);
   }
 };
 </script>
