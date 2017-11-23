@@ -1,11 +1,5 @@
 <template>
     <section>
-        <div class="newsList-back">
-            <i class="mui-icon mui-icon mui-icon-arrowleft"></i>
-            <router-link to="/index">
-                返回
-            </router-link> 
-        </div>
         <ul class="mui-table-view">
             <li class="mui-table-view-cell mui-media" v-for="item in newLists" v-bind:key="item.id">
                 <router-link v-bind="{ to: `/news/detail/${item.id}`}">
@@ -43,13 +37,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.newsList-back {
-    height: 30px;
-    background-color: #f4f4f4;
-    font-size: 16px;
-    line-height: 30px;
-    color: blue;
-}
+
 .setSize div {
     display: block;
     font-size: 12px;
@@ -61,7 +49,5 @@ export default {
 .fr {
     float: right;
 }
-ul {
-    margin-bottom: 50px;
-}
+
 </style>

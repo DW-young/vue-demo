@@ -23,7 +23,7 @@
                 </router-link>
             </li>
             <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-                <router-link to="/photo/list">
+                <router-link to="/photo/list/0">
                     <span class="mui-icon mui-icon-image"></span>
                     <div class="mui-media-body">图片分享</div>
                 </router-link>
@@ -74,7 +74,9 @@ export default {
 <style lang="less" scoped>
 @height: 260px;
 section {
-  height: @height;
+  .mint-swipe {
+      height: @height;
+  }
   background-color: yellowgreen;
   img {
     width: 100%;
