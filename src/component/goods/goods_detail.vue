@@ -17,7 +17,7 @@
         <div> <span>购买数量：</span>
 
           <!--数字输入框 -->
-          <app-numbox v-bind:initval="buyCount" v-on:change="getTotal"></app-numbox>
+          <app-numbox v-bind:initVal="buyCount" v-on:change="getTotal"></app-numbox>
 
         </div>
       </div>
@@ -79,7 +79,7 @@ export default {
             /* var oldBuyCount = storage.get('goodsBuyData') || {};
             oldBuyCount[this.id] = this.buyCount + (oldBuyCount[this.id] || 0);
             storage.set('goodsBuyData',oldBuyCount); */
-            
+
             this.$store.commit('updateBuyGoodsTotal',{id: this.id, total: this.buyCount});
         }
     },

@@ -10,7 +10,7 @@
                 <ul>
                     <li>￥{{ item.sell_price }}</li>
                     <li>
-                        <app-numbox v-bind:initVal="goodsBuyData[item.id]" v-on:change="modifyBuyCount(item.id,$event)"></app-numbox>
+                        <app-numbox v-bind:initVal="$store.state.buyGoodsData[item.id]" v-on:change="modifyBuyCount(item.id,$event)"></app-numbox>
                     </li>
                     <li>
                         <a href="javascript:;" @click="delGoods(item.id)">删除</a>
@@ -29,7 +29,7 @@
             </ul>
         </div>
         <div class="total_btn">
-            <mt-button type="primary" @click=" $store.commit('setBuyTotal',200)">付 款</mt-button>
+            <mt-button type="primary">付 款</mt-button>
         </div>
     </div>
 
@@ -37,17 +37,16 @@
 </template>
 
 <script>
-    import storage from '../../js/storage.js';
+
 export default {
     data() {
         return {
-            goodsBuyData: storage.get('goodsBuyData'),
             buyGoodsList: [],
         };
     },
     methods: {
         getBuyGoodsList() {
-            let scId = Object.keys(storage.get('goodsBuyData')).join(',');
+            let scId = Object.keys(this.$store.state.buyGoodsData).join(',');
             if(!scId) { return; }
             this.axios.get(this.api.shopCL + scId)
                     .then( resp => {
@@ -56,16 +55,17 @@ export default {
                         }
                     );
         },
-        getBuyCountById(id) {
-            return storage.get('goodsBuyData')[id];
-        },
+
         // 修改购买数量
         modifyBuyCount(id,val) {
-            this.goodsBuyData[id] = val;
+            this.$store.commit('updateBuyGoodsTotal',{
+                id: id,
+                total: val
+            });
         },
         // 删除购物车商品
         delGoods(id) {
-            this.$delete(this.goodsBuyData,id);
+            this.$store.commit('deleteBuyGoodsTotal',{id: id});
 
             this.buyGoodsList = this.buyGoodsList.filter(v => v.id != id);
         }
@@ -79,7 +79,7 @@ export default {
             let sum = 0;
             this.buyGoodsList.forEach( goods => {
                 if(goods.isSelected) {
-                    sum += this.getBuyCountById(goods.id);
+                    sum += this.$store.state.buyGoodsData[goods.id];
                 }
             });
             return sum;
@@ -87,17 +87,8 @@ export default {
         // 总价格
         priceTotal() {
             return this.buyGoodsList.reduce((sum,goods) => {
-                return goods.isSelected ? sum + this.goodsBuyData[goods.id] * goods.sell_price : sum;
+                return goods.isSelected ? sum + this.$store.state.buyGoodsData[goods.id] * goods.sell_price : sum;
             },0);
-        }
-    },
-    watch: {
-        goodsBuyData: {
-            handler() {
-                storage.set('goodsBuyData',this.goodsBuyData);
-            },
-            // 深度监听，vue每次会对比子属性的值
-            deep: true,
         }
     }
 }

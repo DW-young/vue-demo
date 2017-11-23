@@ -7,7 +7,7 @@
 </template>
 <script>
 export default {
-    prop: ['initVal'],
+    props: ['initVal'],
     data() {
         return {
             val: this.initVal || 0
